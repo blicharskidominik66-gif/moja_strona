@@ -5,23 +5,102 @@
     <title>Auto News 24 – Aktualne wiadomości</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial; background: #f4f4f4; margin: 0; }
-        header { background: #222; color: #fff; padding: 20px; text-align: center; }
-        .container { max-width: 900px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 10px; }
-        article { border-bottom: 1px solid #ddd; padding: 15px 0; }
-        article:last-child { border-bottom: none; }
-        h2 { margin: 0 0 10px; }
-        a { color: #0077cc; text-decoration: none; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f4f4f4; 
+            margin: 0; 
+            padding: 0;
+        }
+        header {
+            background: #111;
+            color: #fff;
+            padding: 25px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        nav {
+            background: #222;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 25px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        article {
+            border-bottom: 1px solid #ddd;
+            padding: 20px 0;
+            display: flex;
+            gap: 20px;
+        }
+        article:last-child {
+            border-bottom: none;
+        }
+        img {
+            width: 180px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        h2 {
+            margin: 0 0 10px;
+            font-size: 22px;
+        }
+        p {
+            margin: 0 0 10px;
+            color: #444;
+        }
+        a.read-more {
+            color: #0077cc;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #111;
+            color: #fff;
+            margin-top: 40px;
+        }
+        @media(max-width: 700px) {
+            article {
+                flex-direction: column;
+            }
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Auto News 24</h1>
-    <p>Strona aktualizuje się automatycznie</p>
-</header>
+<header>Auto News 24</header>
+
+<nav>
+    <a href="#">Wiadomości</a>
+    <a href="#">Motoryzacja</a>
+    <a href="#">Sport</a>
+    <a href="#">Technologia</a>
+</nav>
 
 <div class="container" id="news"></div>
+
+<footer>
+    © 2026 Auto News 24 – Aktualizowane automatycznie
+</footer>
 
 <script>
 async function loadRSS() {
@@ -40,10 +119,16 @@ async function loadRSS() {
 
             data.items.forEach(item => {
                 const article = document.createElement("article");
+
+                const image = item.thumbnail ? `<img src="${item.thumbnail}" alt="news image">` : `<img src="https://via.placeholder.com/180x120?text=Brak+zdjęcia">`;
+
                 article.innerHTML = `
-                    <h2>${item.title}</h2>
-                    <p>${item.description || ""}</p>
-                    <a href="${item.link}" target="_blank">Czytaj dalej</a>
+                    ${image}
+                    <div>
+                        <h2>${item.title}</h2>
+                        <p>${item.description || ""}</p>
+                        <a class="read-more" href="${item.link}" target="_blank">Czytaj dalej</a>
+                    </div>
                 `;
                 container.appendChild(article);
             });
